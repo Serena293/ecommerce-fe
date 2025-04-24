@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa';
+import { useState } from "react";
+import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       if (!username || !password) {
-        throw new Error('Username and Password are mandatory');
+        throw new Error("Username and Password are mandatory");
       }
 
-      const loginUrl = "http://localhost:8080/login"; 
-      
+      const loginUrl = "http://localhost:8080/login";
+
       const response = await fetch(loginUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username,
@@ -33,20 +33,19 @@ function LoginForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+        throw new Error(errorData.message || "Login failed");
       }
 
       const data = await response.json();
-      
+
       // Salva il token o gestisci il successo del login
-      console.log('Login successful:', data);
-      localStorage.setItem('authToken', data.token);
-      
+      console.log("Login successful:", data);
+      localStorage.setItem("authToken", data.token);
+
       // Reindirizza l'utente o aggiorna lo stato dell'applicazione
       // window.location.href = '/dashboard';
-
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -55,7 +54,7 @@ function LoginForm() {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100">
-      <form 
+      <form
         onSubmit={handleLogin}
         className="d-flex flex-column w-35 gap-3 p-4 border rounded shadow-sm"
       >
@@ -64,20 +63,16 @@ function LoginForm() {
           Login
         </h1>
 
-        {error && (
-          <div className="alert alert-danger">
-            {error}
-          </div>
-        )}
-        
+        {error && <div className="alert alert-danger">{error}</div>}
+
         <div className="form-group">
           <label className="form-label">
             <FaUser className="me-2" />
             Username
           </label>
-          <input 
-            className="form-control ps-4" 
-            placeholder="Insert Username" 
+          <input
+            className="form-control ps-4"
+            placeholder="Insert Username"
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -93,16 +88,16 @@ function LoginForm() {
           <div className="position-relative">
             <input
               type={showPassword ? "text" : "password"}
-              className="form-control pe-5 ps-4"  
+              className="form-control pe-5 ps-4"
               placeholder="Password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
             />
-            <span 
+            <span
               className="position-absolute end-0 top-50 translate-middle-y me-3"
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               onClick={() => setShowPassword(!showPassword)}
             >
               <i className={`bi bi-eye${showPassword ? "-slash" : ""}`}></i>
@@ -110,14 +105,18 @@ function LoginForm() {
           </div>
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="btn btn-primary mt-2"
           disabled={loading}
         >
           {loading ? (
             <>
-              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span
+                className="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
               Loading...
             </>
           ) : (
@@ -127,6 +126,10 @@ function LoginForm() {
             </>
           )}
         </button>
+        <div>
+          <div>Forgot your password? </div>
+          <div> Sign in</div>
+        </div>
       </form>
     </div>
   );
