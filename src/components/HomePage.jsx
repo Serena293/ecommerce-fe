@@ -2,10 +2,11 @@ import MyNavbar from './MyNavbar'
 const HomePage = () => {
   return (
     <section className="hero-section">
-      <MyNavbar />
+      {/* <MyNavbar  /> */}
+     
     </section>
 
-    
+
   );
 };
 

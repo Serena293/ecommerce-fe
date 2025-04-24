@@ -38,12 +38,12 @@ function LoginForm() {
 
       const data = await response.json();
 
-      // Salva il token o gestisci il successo del login
-      console.log("Login successful:", data);
       localStorage.setItem("authToken", data.token);
 
-      // Reindirizza l'utente o aggiorna lo stato dell'applicazione
-      // window.location.href = '/dashboard';
+      setUsername("");
+      setPassword("");
+      window.location.href = "/home";
+      
     } catch (error) {
       console.error("Login error:", error);
       setError(error.message);
