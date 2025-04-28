@@ -1,10 +1,16 @@
-import mainPicture from '../assets/main-picture.jpeg'; 
+import mainPicture from "../assets/main-picture.jpeg";
+import flowersPainting from "../assets/flowers-painting.jpeg";
+import flowersPrint from "../assets/flowers-painting-print.jpeg";
+
 const HomePage = () => {
   return (
     <>
-      <section className="main-section d-flex flex-column flex-lg-row mt-5">
-        <div className="w-100 w-lg-50 main-text">
-          <h1 className="text-center"> Hey!</h1>
+    <section className="main-section mt-5">
+    <div className="container">
+      <div className="row align-items-center">
+        
+        <div className="col-12 col-lg-6 main-text mb-4 mb-lg-0">
+          <h1 className="text-center">Hey!</h1>
           <p className="text-center">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
             nisi nesciunt amet dolore? Deleniti odio qui molestias temporibus,
@@ -18,18 +24,34 @@ const HomePage = () => {
             molestias. Quo, voluptatibus nam.
           </p>
         </div>
-        <div className="w-100 w-lg-50">
-          <img src={mainPicture} alt="mainpicture" className='main-picture'/>
+        
+        <div className="col-12 col-lg-6">
+          <img src={mainPicture} alt="mainpicture" className="img-fluid main-picture" />
         </div>
-      </section>
-
-      <section>
-        <h2> Shop</h2>
-        <div>
-          <img />
-        </div>
-        <div>
-          <img />
+  
+      </div>
+    </div>
+  </section>
+  
+      <section className="mt-5">
+        <h2 className="text-center mb-4">Shop</h2>
+        <div className="container">
+          <div className="row">
+            <div className="col-12 col-md-6 mb-4">
+              <img
+                src={flowersPainting}
+                alt="flowers painting"
+                className="img-fluid rounded"
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-4">
+              <img
+                src={flowersPrint}
+                alt="flowers print"
+                className="img-fluid rounded"
+              />
+            </div>
+          </div>
         </div>
       </section>
     </>
