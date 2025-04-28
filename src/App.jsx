@@ -11,6 +11,7 @@ import { useState } from "react";
 import Profile from "./components/Profile";
 import AdminDashboard from "./components/AdminDashboard";
 // import UserManagement from "./components/UserManagement"; // Componente commentato
+import Footer from "./components/Footer";
 
 function App() {
   // Stato per gestire autenticazione e dati utente
@@ -26,7 +27,7 @@ function App() {
     
   }
 );
-console.log("App DEBUG - authState:", authState);
+
   // Gestione login con salvataggio dati
   const handleLoginSuccess = (userData) => {
     const normalizedUserData = {
@@ -125,7 +126,9 @@ console.log("App DEBUG - authState:", authState);
           }
         /> 
         */}
-      </Routes>
+    
+      </Routes>  
+        <Footer/>
     </Router>
   );
 }
