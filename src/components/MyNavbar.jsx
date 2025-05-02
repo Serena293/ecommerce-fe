@@ -42,7 +42,9 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                   Login
                 </Nav.Link>
               )}
-
+   <Nav.Link as={Link} to="/register">
+                  Sign up
+                </Nav.Link>
               <Nav.Link as={Link} to="/home">
                 Home
               </Nav.Link>

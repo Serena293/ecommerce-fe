@@ -10,23 +10,20 @@ import HomePage from "./components/HomePage";
 import { useState } from "react";
 import Profile from "./components/Profile";
 import AdminDashboard from "./components/AdminDashboard";
-// import UserManagement from "./components/UserManagement"; // Componente commentato
 import Footer from "./components/Footer";
+import RegistrationForm from "./components/RegistrationForm";
 
 function App() {
   // Stato per gestire autenticazione e dati utente
   const [authState, setAuthState] = useState(() => {
     const token = localStorage.getItem("authToken");
     const user = JSON.parse(localStorage.getItem("userData") || "null");
-   
+
     return {
       isAuthenticated: !!token,
       user: user,
-   
-    }
-    
-  }
-);
+    };
+  });
 
   // Gestione login con salvataggio dati
   const handleLoginSuccess = (userData) => {
@@ -34,7 +31,6 @@ function App() {
       ...userData,
       role: userData.authorities?.[0]?.authority || null,
     };
-
 
     localStorage.setItem("authToken", userData.token);
     localStorage.setItem("userData", JSON.stringify(userData));
@@ -67,18 +63,17 @@ function App() {
 
     return children;
   };
-  
-
 
   return (
     <Router>
       <MyNavbar
-        key={authState.user?.role || "guest"} 
+        key={authState.user?.role || "guest"}
         isAuthenticated={authState.isAuthenticated}
         userRole={authState.user?.role}
         onLogout={handleLogout}
       />
 
+      
       <Routes>
         {/* Route pubblica */}
         <Route path="/home" element={<HomePage />} />
@@ -91,6 +86,19 @@ function App() {
               <Navigate to="/profile" replace />
             ) : (
               <LoginForm onLoginSuccess={handleLoginSuccess} />
+            )
+          }
+        />
+
+        {/* Registration routes */}
+        <Route path="/register" element={<Navigate to="/registration" replace/>}/>
+        <Route 
+          path="/registration" 
+          element={
+            authState.isAuthenticated ? (
+              <Navigate to="/profile" replace />
+            ) : (
+              <RegistrationForm />
             )
           }
         />
@@ -114,21 +122,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* 
-        Route protetta - gestione utenti (commentata)
-        <Route 
-          path="/admin/users" 
-          element={
-            <ProtectedRoute requiredRole="ADMIN">
-              <UserManagement />
-            </ProtectedRoute>
-          }
-        /> 
-        */}
-    
-      </Routes>  
-        <Footer/>
+      </Routes>
+      <Footer />
     </Router>
   );
 }

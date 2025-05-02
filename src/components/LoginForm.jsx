@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm({ onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -174,9 +174,9 @@ function LoginForm({ onLoginSuccess }) {
           </a>
           <div className="mt-2">
             Don't have an account?{" "}
-            <a href="/register" className="text-decoration-none">
+            <Link to="/register" className="text-decoration-none">
               Sign up
-            </a>
+          </Link>
           </div>
         </div>
       </form>

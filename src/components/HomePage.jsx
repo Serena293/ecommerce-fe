@@ -39,19 +39,21 @@ const HomePage = () => {
         <h2 className="text-center mb-4">Shop</h2>
         <div className="container">
           <div className="row">
-            <div className="col-12 col-md-6 mb-4">
+            <div className="col-12 col-md-6 mb-4 image">
               <img
                 src={flowersPainting}
                 alt="flowers painting"
                 className="img-fluid rounded"
               />
+              <h2>Original</h2>
             </div>
-            <div className="col-12 col-md-6 mb-4">
+            <div className="col-12 col-md-6 mb-4 image">
               <img
                 src={flowersPrint}
                 alt="flowers print"
                 className="img-fluid rounded"
               />
+              <h2>Prints</h2>
             </div>
           </div>
         </div>
