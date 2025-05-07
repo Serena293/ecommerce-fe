@@ -37,3 +37,8 @@
     color: #0d6efd; 
   }
   
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  

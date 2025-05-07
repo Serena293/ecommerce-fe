@@ -4,17 +4,18 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { useState } from "react";
 import LoginForm from "./components/LoginForm";
 import MyNavbar from "./components/MyNavbar";
 import HomePage from "./components/HomePage";
-import { useState } from "react";
 import Profile from "./components/Profile";
 import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
+import OriginalsPage from "./components/Originals";
+import "./App.css"; // Assicurati di avere il CSS giusto qui
 
 function App() {
-  // Stato per gestire autenticazione e dati utente
   const [authState, setAuthState] = useState(() => {
     const token = localStorage.getItem("authToken");
     const user = JSON.parse(localStorage.getItem("userData") || "null");
@@ -25,7 +26,6 @@ function App() {
     };
   });
 
-  // Gestione login con salvataggio dati
   const handleLoginSuccess = (userData) => {
     const normalizedUserData = {
       ...userData,
@@ -40,7 +40,6 @@ function App() {
     });
   };
 
-  // Gestione logout con pulizia dati
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("userData");
@@ -51,7 +50,6 @@ function App() {
     window.location.href = "/home";
   };
 
-  // Componente per proteggere le route
   const ProtectedRoute = ({ children, requiredRole }) => {
     if (!authState.isAuthenticated) {
       return <Navigate to="/login" replace />;
@@ -66,64 +64,68 @@ function App() {
 
   return (
     <Router>
-      <MyNavbar
-        key={authState.user?.role || "guest"}
-        isAuthenticated={authState.isAuthenticated}
-        userRole={authState.user?.role}
-        onLogout={handleLogout}
-      />
-
-      
-      <Routes>
-        {/* Route pubblica */}
-        <Route path="/home" element={<HomePage />} />
-
-        {/* Route login con redirect se già autenticati */}
-        <Route
-          path="/login"
-          element={
-            authState.isAuthenticated ? (
-              <Navigate to="/profile" replace />
-            ) : (
-              <LoginForm onLoginSuccess={handleLoginSuccess} />
-            )
-          }
+      <div className="d-flex flex-column min-vh-100">
+        <MyNavbar
+          key={authState.user?.role || "guest"}
+          isAuthenticated={authState.isAuthenticated}
+          userRole={authState.user?.role}
+          onLogout={handleLogout}
         />
 
-        {/* Registration routes */}
-        <Route path="/register" element={<Navigate to="/registration" replace/>}/>
-        <Route 
-          path="/registration" 
-          element={
-            authState.isAuthenticated ? (
-              <Navigate to="/profile" replace />
-            ) : (
-              <RegistrationForm />
-            )
-          }
-        />
+        <main className="flex-fill">
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
 
-        {/* Route protetta - profilo utente */}
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile user={authState.user} />
-            </ProtectedRoute>
-          }
-        />
+            <Route
+              path="/login"
+              element={
+                authState.isAuthenticated ? (
+                  <Navigate to="/profile" replace />
+                ) : (
+                  <LoginForm onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
 
-        {/* Route protetta - solo admin */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requiredRole="ADMIN">
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-      <Footer />
+            <Route
+              path="/register"
+              element={<Navigate to="/registration" replace />}
+            />
+            <Route
+              path="/registration"
+              element={
+                authState.isAuthenticated ? (
+                  <Navigate to="/profile" replace />
+                ) : (
+                  <RegistrationForm />
+                )
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile user={authState.user} />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="ADMIN">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/original" element={<OriginalsPage />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
     </Router>
   );
 }

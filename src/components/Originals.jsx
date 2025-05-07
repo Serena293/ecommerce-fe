@@ -1,9 +1,12 @@
+import { Card, Button } from "react-bootstrap";
+
 const Originals = () => {
 
     
   return (
     <>
-      <Card style={{ width: "18rem" }}>
+    <h1 className="text-center"> Originals</h1>
+      <Card >
         <Card.Img variant="top" src="holder.js/100px180" />
         <Card.Body>
           <Card.Title>Card Title</Card.Title>

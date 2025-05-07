@@ -1,6 +1,7 @@
 import mainPicture from "../assets/main-picture.jpeg";
 import flowersPainting from "../assets/flowers-painting.jpeg";
 import flowersPrint from "../assets/flowers-painting-print.jpeg";
+import {Link} from "react-router-dom"
 
 const HomePage = () => {
   return (
@@ -45,7 +46,9 @@ const HomePage = () => {
                 alt="flowers painting"
                 className="img-fluid rounded"
               />
-              <h2>Original</h2>
+              <Link to="/original">
+                <h2>Original</h2>
+              </Link>
             </div>
             <div className="col-12 col-md-6 mb-4 image">
               <img
