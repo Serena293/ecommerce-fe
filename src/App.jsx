@@ -13,7 +13,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import OriginalsPage from "./components/Originals";
-import "./App.css"; // Assicurati di avere il CSS giusto qui
+import "./App.css"; 
 
 function App() {
   const [authState, setAuthState] = useState(() => {
@@ -75,6 +75,7 @@ function App() {
         <main className="flex-fill">
           <Routes>
             <Route path="/home" element={<HomePage />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
 
             <Route
               path="/login"
