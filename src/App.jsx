@@ -1,10 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 import LoginForm from "./components/LoginForm";
 import MyNavbar from "./components/MyNavbar";
 import HomePage from "./components/HomePage";
@@ -13,49 +8,26 @@ import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import OriginalsPage from "./components/Originals";
-import "./App.css"; 
+import "./App.css";
 
 function App() {
-  const [authState, setAuthState] = useState(() => {
-    const token = localStorage.getItem("authToken");
-    const user = JSON.parse(localStorage.getItem("userData") || "null");
-
-    return {
-      isAuthenticated: !!token,
-      user: user,
-    };
-  });
+  const { user, isAuthenticated, setAuth, logout } = useAuth(); 
 
   const handleLoginSuccess = (userData) => {
-    const normalizedUserData = {
-      ...userData,
-      role: userData.authorities?.[0]?.authority || null,
-    };
-
-    localStorage.setItem("authToken", userData.token);
-    localStorage.setItem("userData", JSON.stringify(userData));
-    setAuthState({
-      isAuthenticated: true,
-      user: normalizedUserData,
-    });
+    setAuth(userData); 
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userData");
-    setAuthState({
-      isAuthenticated: false,
-      user: null,
-    });
-    window.location.href = "/home";
+    logout(); 
+    window.location.href = "/home"; 
   };
 
   const ProtectedRoute = ({ children, requiredRole }) => {
-    if (!authState.isAuthenticated) {
+    if (!isAuthenticated) {
       return <Navigate to="/login" replace />;
     }
 
-    if (requiredRole && authState.user?.role !== requiredRole) {
+    if (requiredRole && user?.role !== requiredRole) {
       return <Navigate to="/home" replace />;
     }
 
@@ -66,9 +38,9 @@ function App() {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         <MyNavbar
-          key={authState.user?.role || "guest"}
-          isAuthenticated={authState.isAuthenticated}
-          userRole={authState.user?.role}
+          key={user?.role || "guest"}
+          isAuthenticated={isAuthenticated}
+          userRole={user?.role}
           onLogout={handleLogout}
         />
 
@@ -80,7 +52,7 @@ function App() {
             <Route
               path="/login"
               element={
-                authState.isAuthenticated ? (
+                isAuthenticated ? (
                   <Navigate to="/profile" replace />
                 ) : (
                   <LoginForm onLoginSuccess={handleLoginSuccess} />
@@ -95,7 +67,7 @@ function App() {
             <Route
               path="/registration"
               element={
-                authState.isAuthenticated ? (
+                isAuthenticated ? (
                   <Navigate to="/profile" replace />
                 ) : (
                   <RegistrationForm />
@@ -107,7 +79,7 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <Profile user={authState.user} />
+                  <Profile user={user} />
                 </ProtectedRoute>
               }
             />

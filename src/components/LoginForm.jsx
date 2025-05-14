@@ -39,6 +39,7 @@ function LoginForm({ onLoginSuccess }) {
           password: password,
         }),
       });
+      
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -46,7 +47,7 @@ function LoginForm({ onLoginSuccess }) {
       }
 
       const data = await response.json();
-      console.log("Risposta login:", data);
+
       // Estrae e normalizza il ruolo dalla risposta
       const normalizedRole = getNormalizedRole(data.authorities);
 
@@ -69,7 +70,7 @@ function LoginForm({ onLoginSuccess }) {
       setUsername("");
       setPassword("");
       
-      // Reindirizza in base al ruolo
+    
       if (normalizedRole === 'ADMIN') {
         navigate("/admin");
       } else {

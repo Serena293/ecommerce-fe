@@ -4,20 +4,14 @@ import {
   Nav,
   Offcanvas,
   NavDropdown,
-
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
-  console.log("NAVBAR DEBUG - isAuthenticated:", isAuthenticated);
-  console.log("NAVBAR DEBUG - userRole:", userRole);
+  // console.log("NAVBAR DEBUG - isAuthenticated:", isAuthenticated);
+  // console.log("NAVBAR DEBUG - userRole:", userRole);
 
-  console.log(
-    "Navbar DEBUG - isAuthenticated:",
-    isAuthenticated,
-    "role:",
-    userRole
-  );
+
   return (
     <Navbar expand="lg" variant="light" fixed="top">
       <Container fluid>
@@ -42,9 +36,9 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                   Login
                 </Nav.Link>
               )}
-   <Nav.Link as={Link} to="/register">
-                  Sign up
-                </Nav.Link>
+              <Nav.Link as={Link} to="/register">
+                Sign up
+              </Nav.Link>
               <Nav.Link as={Link} to="/home">
                 Home
               </Nav.Link>
@@ -67,8 +61,10 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                 </NavDropdown.Item>
                 {isAuthenticated && (
                   <>
-                     <NavDropdown.Divider />
-                    <Nav.Link onClick={onLogout} className="mx-3">Logout</Nav.Link>
+                    <NavDropdown.Divider />
+                    <Nav.Link onClick={onLogout} className="mx-3">
+                      Logout
+                    </Nav.Link>
                   </>
                 )}
               </NavDropdown>
