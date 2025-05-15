@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BiCategory } from "react-icons/bi";
 
 const AdminDashboard = () => {
   const [itemName, setItemName] = useState("");
@@ -7,6 +8,7 @@ const AdminDashboard = () => {
   const [canvasSize, setCanvasSize] = useState("SMALL");
   const [inStock, setInStock] = useState(0);
   const [imageFile, setImageFile] = useState(null);
+  const [category, setCategory] = useState("ORIGINAL")
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const AdminDashboard = () => {
           price: price,
           canvasSize: canvasSize,
           inStock: inStock,
+          category: category
         }),
       ],
       { type: "application/json" ,
@@ -46,8 +49,10 @@ const AdminDashboard = () => {
       });
 
       if (!response.ok) {
+        console.log("response not okay: ", response)
         throw new Error("Errore durante la creazione del prodotto");
       }
+
 
       const result = await response.json();
       console.log("Prodotto aggiunto:", result);
@@ -102,6 +107,13 @@ const AdminDashboard = () => {
             value={inStock}
             onChange={(e) => setInStock(Number(e.target.value))}
           />
+
+          <label >Category:</label>
+          <select value={category}
+          onChange={(e)=>  setCategory(e.target.value)}>
+            <option value="ORIGINAL">Original</option>
+            <option value="PRINT">Print</option>
+          </select>
 
           <label>Image:</label>
           <input
