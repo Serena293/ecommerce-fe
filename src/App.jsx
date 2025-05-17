@@ -7,7 +7,7 @@ import Profile from "./components/Profile";
 import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
-import OriginalsPage from "./components/Originals";
+import OriginalPage from "./components/OriginalPage"
 import "./App.css";
 
 function App() {
@@ -93,7 +93,7 @@ function App() {
               }
             />
 
-            <Route path="/original" element={<OriginalsPage />} />
+            <Route path="/original" element={<OriginalPage />} />
           </Routes>
         </main>
 
