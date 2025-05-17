@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import OriginalPage from "./components/OriginalPage"
 import "./App.css";
+import PrintPage from "./components/PrintPage";
+import OrderPage from "./components/OrderPage";
 
 function App() {
   const { user, isAuthenticated, setAuth, logout } = useAuth(); 
@@ -94,6 +96,10 @@ function App() {
             />
 
             <Route path="/original" element={<OriginalPage />} />
+
+            <Route path="/print" element={<PrintPage/>}/>
+
+            <Route path="/commissions" element={<OrderPage/>}/>
           </Routes>
         </main>
 

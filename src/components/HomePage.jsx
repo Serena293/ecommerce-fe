@@ -56,7 +56,9 @@ const HomePage = () => {
                 alt="flowers print"
                 className="img-fluid rounded"
               />
+              <Link to="/print">
               <h2>Prints</h2>
+              </Link>
             </div>
           </div>
         </div>
@@ -66,7 +68,10 @@ const HomePage = () => {
         <div className="row align-items-center">
           <div className="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center mb-4">
             <span className="mb-3">Commissioned painting</span>
+          <Link to="/commissions">
+
             <button className="btn btn-primary">Order now</button>
+            </Link>
           </div>
 
           <div className="col-12 col-md-6 mb-4">

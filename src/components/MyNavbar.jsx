@@ -11,7 +11,6 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
   // console.log("NAVBAR DEBUG - isAuthenticated:", isAuthenticated);
   // console.log("NAVBAR DEBUG - userRole:", userRole);
 
-
   return (
     <Navbar expand="lg" variant="light" fixed="top">
       <Container fluid>
@@ -30,20 +29,23 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Nav.Link as={Link} to="/home">
+                Home
+              </Nav.Link>
+
               {/* Login/Logout */}
               {!isAuthenticated && (
                 <Nav.Link as={Link} to="/login">
                   Login
                 </Nav.Link>
               )}
-              <Nav.Link as={Link} to="/register">
-                Sign up
-              </Nav.Link>
-              <Nav.Link as={Link} to="/home">
-                Home
-              </Nav.Link>
-              <Nav.Link href="#about">My Cart</Nav.Link>
 
+              {!isAuthenticated && (
+                <Nav.Link as={Link} to="/register">
+                  Sign up
+                </Nav.Link>
+              )}
+              <Nav.Link href="#about">My Cart</Nav.Link>
               <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Altro</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/profile">
