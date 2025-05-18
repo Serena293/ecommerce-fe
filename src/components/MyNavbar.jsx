@@ -12,7 +12,7 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
   // console.log("NAVBAR DEBUG - userRole:", userRole);
 
   return (
-    <Navbar expand="lg" variant="light" fixed="top">
+    <Navbar expand="lg" variant="light" >
       <Container fluid>
         <Navbar.Brand as={Link} to="/home">
           Brand link

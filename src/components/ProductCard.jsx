@@ -8,7 +8,8 @@ const ProductCard = ({ product }) => {
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{product.description}</Card.Text>
-        <Card.Text>{product.price}</Card.Text>
+        <Card.Text> price: {product.price} £</Card.Text>
+        <Card.Text> size: {product.canvasSize}</Card.Text>
         <Button variant="primary">Add to cart</Button>
       </Card.Body>
     </Card>
