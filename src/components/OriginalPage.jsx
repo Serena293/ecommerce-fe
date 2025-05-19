@@ -4,7 +4,8 @@ const OriginalPage = () => {
   return (
     <div>
       <h2 className="text-center my-4">Original Artworks</h2>
-      <ProductList category="ORIGINAL" />
+      <ProductList category="ORIGINAL" 
+       />
     </div>
   );
 };

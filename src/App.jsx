@@ -90,14 +90,18 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute requiredRole="ADMIN">
-                  <AdminDashboard />
+                  <AdminDashboard 
+                
+             />
                 </ProtectedRoute>
               }
             />
 
-            <Route path="/original" element={<OriginalPage />} />
+            <Route path="/original" element={<OriginalPage   isAuthenticated={isAuthenticated}
+                  userRole={user?.role} />} />
 
-            <Route path="/print" element={<PrintPage/>}/>
+            <Route path="/print" element={<PrintPage   isAuthenticated={isAuthenticated}
+                  userRole={user?.role}/>}/>
 
             <Route path="/commissions" element={<OrderPage/>}/>
           </Routes>

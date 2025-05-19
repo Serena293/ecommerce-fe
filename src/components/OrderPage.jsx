@@ -13,7 +13,7 @@ const OrderPage = () => {
         <label>Desctiption:</label>
         <textarea placeholder="Describe your idea, include as many details as possible"></textarea>
         <div className="d-flex justify-content-center mt-2">
-          <button className="border-0 btn btn-sm btn-primary w-auto fs-4">
+          <button className="border-0 btn btn-sm btn-dark w-auto fs-4">
             Send
           </button>
         </div>

@@ -46,7 +46,7 @@ const HomePage = () => {
                 alt="flowers painting"
                 className="img-fluid rounded"
               />
-              <Link to="/original">
+              <Link to="/original" className="link">
                 <h2>Original</h2>
               </Link>
             </div>
@@ -56,7 +56,7 @@ const HomePage = () => {
                 alt="flowers print"
                 className="img-fluid rounded"
               />
-              <Link to="/print">
+              <Link to="/print" className="link">
               <h2>Prints</h2>
               </Link>
             </div>
@@ -70,7 +70,7 @@ const HomePage = () => {
             <span className="mb-3">Commissioned painting</span>
           <Link to="/commissions">
 
-            <button className="btn btn-primary">Order now</button>
+            <button className="btn btn-dark">Order now</button>
             </Link>
           </div>
 
