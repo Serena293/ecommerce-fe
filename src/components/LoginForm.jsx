@@ -149,7 +149,7 @@ function LoginForm({ onLoginSuccess }) {
 
         <button
           type="submit"
-          className="btn btn-primary mt-2 py-2"
+          className="btn btn-dark mt-2 py-2"
           disabled={loading}
         >
           {loading ? (
