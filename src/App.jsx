@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import LoginForm from "./components/LoginForm";
 import MyNavbar from "./components/MyNavbar";
@@ -7,21 +12,23 @@ import Profile from "./components/Profile";
 import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
-import OriginalPage from "./components/OriginalPage"
+import OriginalPage from "./components/OriginalPage";
 import "./App.css";
 import PrintPage from "./components/PrintPage";
 import OrderPage from "./components/OrderPage";
+import CartProvider from "./CartProvider";
+import AuthProvider from "./AuthProvider"
 
 function App() {
-  const { user, isAuthenticated, setAuth, logout } = useAuth(); 
+  const { user, isAuthenticated, setAuth, logout } = useAuth();
 
   const handleLoginSuccess = (userData) => {
-    setAuth(userData); 
+    setAuth(userData);
   };
 
   const handleLogout = () => {
-    logout(); 
-    window.location.href = "/home"; 
+    logout();
+    window.location.href = "/home";
   };
 
   const ProtectedRoute = ({ children, requiredRole }) => {
@@ -38,6 +45,7 @@ function App() {
 
   return (
     <Router>
+       <CartProvider> 
       <div className="d-flex flex-column min-vh-100">
         <MyNavbar
           key={user?.role || "guest"}
@@ -90,25 +98,39 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute requiredRole="ADMIN">
-                  <AdminDashboard 
-                
-             />
+                  <AdminDashboard />
                 </ProtectedRoute>
               }
             />
 
-            <Route path="/original" element={<OriginalPage   isAuthenticated={isAuthenticated}
-                  userRole={user?.role} />} />
+            <Route
+              path="/original"
+              element={
+                <OriginalPage
+                  isAuthenticated={isAuthenticated}
+                  userRole={user?.role}
+                />
+              }
+            />
 
-            <Route path="/print" element={<PrintPage   isAuthenticated={isAuthenticated}
-                  userRole={user?.role}/>}/>
+            <Route
+              path="/print"
+              element={
+                <PrintPage
+                  isAuthenticated={isAuthenticated}
+                  userRole={user?.role}
+                />
+              }
+            />
 
-            <Route path="/commissions" element={<OrderPage/>}/>
+            <Route path="/commissions" element={<OrderPage />} />
           </Routes>
         </main>
 
         <Footer />
       </div>
+
+       </CartProvider> 
     </Router>
   );
 }

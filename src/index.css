@@ -45,3 +45,9 @@
   .link{
     text-decoration: none;
   }
+
+  .cart-badge {
+  font-size: 0.6rem;
+  top: 0.2rem;
+  right: 0.2rem;
+}

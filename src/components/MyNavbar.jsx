@@ -6,13 +6,13 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import useCart from "../useCart";
 
 const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
-  // console.log("NAVBAR DEBUG - isAuthenticated:", isAuthenticated);
-  // console.log("NAVBAR DEBUG - userRole:", userRole);
+  const { cartCount } = useCart();
 
   return (
-    <Navbar expand="lg" variant="light" >
+    <Navbar expand="lg" variant="light">
       <Container fluid>
         <Navbar.Brand as={Link} to="/home">
           Brand link
@@ -33,7 +33,6 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                 Home
               </Nav.Link>
 
-              {/* Login/Logout */}
               {!isAuthenticated && (
                 <Nav.Link as={Link} to="/login">
                   Login
@@ -45,7 +44,17 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                   Sign up
                 </Nav.Link>
               )}
-              <Nav.Link href="#about">My Cart</Nav.Link>
+
+              <Nav.Link as={Link} to="/cart" className="position-relative">
+                <i className="bi bi-cart" style={{ fontSize: "1.5rem" }}></i>
+                {cartCount > 0 && (
+                  <span className="position-absolute badge rounded-pill bg-danger cart-badge">
+                    {cartCount}
+                    <span className="visually-hidden">cart items</span>
+                  </span>
+                )}
+              </Nav.Link>
+
               <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Altro</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/profile">
@@ -61,6 +70,7 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                 <NavDropdown.Item href="#action/3.3">
                   Something
                 </NavDropdown.Item>
+
                 {isAuthenticated && (
                   <>
                     <NavDropdown.Divider />

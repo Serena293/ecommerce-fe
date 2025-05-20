@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
   const setAuth = (token) => {
     localStorage.setItem('authToken', token);
 
-    const decoded = jwt_decode(token);
+    const decoded = jwtDecode(token);
 
     const userData = {
       username: decoded.sub,
