@@ -56,7 +56,8 @@ function LoginForm({ onLoginSuccess }) {
       localStorage.setItem("userData", JSON.stringify({
         username: data.username,
         role: normalizedRole,  
-        email: data.email
+        email: data.email,
+         userId: data.userId
       }));
       
       // Notifica il componente padre
@@ -64,7 +65,8 @@ function LoginForm({ onLoginSuccess }) {
         token: data.token,
         role: normalizedRole,
         username: data.username,
-        email: data.email
+        email: data.email,
+         userId: data.userId
       });
 
       setUsername("");

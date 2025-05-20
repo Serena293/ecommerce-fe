@@ -85,8 +85,10 @@ const AdminDashboard = () => {
           <label>Price:</label>
           <input
             type="number"
-            min={0}
+           
             value={price}
+            step="0.01" 
+            min="0"
             onChange={(e) => setPrice(Number(e.target.value))}
           />
 
@@ -122,7 +124,7 @@ const AdminDashboard = () => {
             onChange={(e) => setImageFile(e.target.files[0])}
           />
 
-          <button type="submit">Add Product</button>
+          <button type="submit" className="border-0 btn btn-dark">Add Product</button>
         </form>
       </div>
     </main>
