@@ -1,7 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from "react";
 import CardCart from "./CardCart";
-import { useAuth } from '../AuthContext';
-import CartContext from '../CartContext';
+import { useAuth } from "../AuthContext";
+import CartContext from "../CartContext";
+import { Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,13 +15,17 @@ const CartPage = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/users/${user.userId}/cart`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await fetch(
+        `http://localhost:8080/api/v1/users/${user.userId}/cart`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
       console.log("data in fetchCart, CartPage", data);
@@ -41,14 +49,14 @@ const CartPage = () => {
       const response = await fetch(
         `http://localhost:8080/api/v1/users/${user.userId}/cart/items/${product.productId}`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
-      if (!response.ok) throw new Error('Failed to remove item');
+      if (!response.ok) throw new Error("Failed to remove item");
 
       await fetchCartItems(); // 🔁 Refresha e aggiorna count
     } catch (error) {
@@ -71,7 +79,13 @@ const CartPage = () => {
 
   return (
     <>
-      <h1>My Cart</h1>
+      <div className="d-flex justify-content-between align-items-center px-3">
+        <h1>My Cart</h1>
+        <a href="#" className="">
+          Continue shopping
+        </a>
+      </div>
+
       {cartItems.length > 0 ? (
         cartItems.map((product) => {
           console.log(product, "in CartPage");
@@ -86,6 +100,11 @@ const CartPage = () => {
       ) : (
         <p>Your cart is empty</p>
       )}
+      <div className="d-flex  justify-content-end mx-5">
+        <Button className="btn-dark mx-3">Continue Shopping</Button>
+        <Link to="/checkout"> <Button variant="dark">Proceed Checkout</Button></Link>
+       
+      </div>
     </>
   );
 };

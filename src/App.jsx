@@ -19,6 +19,7 @@ import OrderPage from "./components/OrderPage";
 import CartProvider from "./CartProvider";
 import AuthProvider from "./AuthProvider";
 import CartPage from "./components/CartPage";
+import CheckoutPage from "./components/CheckoutPage";
 
 function App() {
   const { user, isAuthenticated, setAuth, logout } = useAuth();
@@ -127,7 +128,12 @@ function App() {
               />
 
               <Route path="/commissions" element={<OrderPage />} />
+              
+              <Route path="/checkout"element={<CheckoutPage/>} />
+
+
             </Routes>
+
           </main>
 
           <Footer />
