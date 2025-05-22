@@ -61,13 +61,15 @@ function LoginForm({ onLoginSuccess }) {
       }));
       
       // Notifica il componente padre
-      onLoginSuccess({
-        token: data.token,
-        role: normalizedRole,
-        username: data.username,
-        email: data.email,
-         userId: data.userId
-      });
+      // onLoginSuccess({
+      //   token: data.token,
+      //   role: normalizedRole,
+      //   username: data.username,
+      //   email: data.email,
+      //    userId: data.userId
+      // });
+      onLoginSuccess(data.token);
+
 
       setUsername("");
       setPassword("");

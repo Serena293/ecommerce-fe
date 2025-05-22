@@ -45,14 +45,20 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
                 </Nav.Link>
               )}
 
-              <Nav.Link as={Link} to="/cart" className="position-relative">
-                <i className="bi bi-cart" style={{ fontSize: "1.5rem" }}></i>
-                {cartCount > 0 && (
-                  <span className="position-absolute badge rounded-pill bg-danger cart-badge">
-                    {cartCount}
-                    <span className="visually-hidden">cart items</span>
-                  </span>
-                )}
+              <Nav.Link
+                as={Link}
+                to="/cart"
+                className="d-flex align-items-center"
+              >
+                <div className="position-relative">
+                  <i className="bi bi-cart" style={{ fontSize: "1.5rem" }}></i>
+                  {cartCount > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {cartCount}
+                      <span className="visually-hidden">cart items</span>
+                    </span>
+                  )}
+                </div>
               </Nav.Link>
 
               <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">

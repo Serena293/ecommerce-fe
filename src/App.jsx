@@ -17,7 +17,8 @@ import "./App.css";
 import PrintPage from "./components/PrintPage";
 import OrderPage from "./components/OrderPage";
 import CartProvider from "./CartProvider";
-import AuthProvider from "./AuthProvider"
+import AuthProvider from "./AuthProvider";
+import CartPage from "./components/CartPage";
 
 function App() {
   const { user, isAuthenticated, setAuth, logout } = useAuth();
@@ -45,92 +46,93 @@ function App() {
 
   return (
     <Router>
-       <CartProvider> 
-      <div className="d-flex flex-column min-vh-100">
-        <MyNavbar
-          key={user?.role || "guest"}
-          isAuthenticated={isAuthenticated}
-          userRole={user?.role}
-          onLogout={handleLogout}
-        />
+      <CartProvider>
+        <div className="d-flex flex-column min-vh-100">
+          <MyNavbar
+            key={user?.role || "guest"}
+            isAuthenticated={isAuthenticated}
+            userRole={user?.role}
+            onLogout={handleLogout}
+          />
 
-        <main className="flex-fill">
-          <Routes>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/" element={<Navigate to="/home" replace />} />
+          <main className="flex-fill">
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
 
-            <Route
-              path="/login"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/profile" replace />
-                ) : (
-                  <LoginForm onLoginSuccess={handleLoginSuccess} />
-                )
-              }
-            />
+              <Route
+                path="/login"
+                element={
+                  isAuthenticated ? (
+                    <Navigate to="/profile" replace />
+                  ) : (
+                    <LoginForm onLoginSuccess={handleLoginSuccess} />
+                  )
+                }
+              />
 
-            <Route
-              path="/register"
-              element={<Navigate to="/registration" replace />}
-            />
-            <Route
-              path="/registration"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/profile" replace />
-                ) : (
-                  <RegistrationForm />
-                )
-              }
-            />
+              <Route
+                path="/register"
+                element={<Navigate to="/registration" replace />}
+              />
+              <Route
+                path="/registration"
+                element={
+                  isAuthenticated ? (
+                    <Navigate to="/profile" replace />
+                  ) : (
+                    <RegistrationForm />
+                  )
+                }
+              />
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile user={user} />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile user={user} />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requiredRole="ADMIN">
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute requiredRole="ADMIN">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              {/* aggiustare */}
+              <Route path="/cart" element={<CartPage />} />
 
-            <Route
-              path="/original"
-              element={
-                <OriginalPage
-                  isAuthenticated={isAuthenticated}
-                  userRole={user?.role}
-                />
-              }
-            />
+              <Route
+                path="/original"
+                element={
+                  <OriginalPage
+                    isAuthenticated={isAuthenticated}
+                    userRole={user?.role}
+                  />
+                }
+              />
 
-            <Route
-              path="/print"
-              element={
-                <PrintPage
-                  isAuthenticated={isAuthenticated}
-                  userRole={user?.role}
-                />
-              }
-            />
+              <Route
+                path="/print"
+                element={
+                  <PrintPage
+                    isAuthenticated={isAuthenticated}
+                    userRole={user?.role}
+                  />
+                }
+              />
 
-            <Route path="/commissions" element={<OrderPage />} />
-          </Routes>
-        </main>
+              <Route path="/commissions" element={<OrderPage />} />
+            </Routes>
+          </main>
 
-        <Footer />
-      </div>
-
-       </CartProvider> 
+          <Footer />
+        </div>
+      </CartProvider>
     </Router>
   );
 }
