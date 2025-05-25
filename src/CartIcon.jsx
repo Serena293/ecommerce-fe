@@ -2,6 +2,7 @@ import useCart from "../useCart";
 
 const CartIcon = () => {
   const { cartCount } = useCart();
+  console.log("rendering CartIcon")
 
   return (
     <div className="position-relative">

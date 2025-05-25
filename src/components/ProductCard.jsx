@@ -3,11 +3,11 @@ import { useAuth } from "../AuthContext";
 import EditProductModal from "./EditProductModal";
 import React, { useState } from "react";
 import axios from "axios";
-import useCart from "../useCart"; 
+import useCart from "../useCart";
 
 const ProductCard = ({ product }) => {
   const { user, isAuthenticated } = useAuth();
-  const { updateCartCount } = useCart(); 
+  const { incrementCartCount, setCartCountFromItems } = useCart();
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(product);
@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
     const token = localStorage.getItem("authToken");
     try {
       const response = await axios.delete(
-        `http://localhost:8080/admin/products/${product.productId}`,
+        `http://localhost:8080/admin/products/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ const ProductCard = ({ product }) => {
         );
         console.log("Added to backend cart:", response.data);
         alert("Product added to your cart!");
-        updateCartCount(prev => prev + 1); // ✅ aggiornato
+        incrementCartCount(); 
       } catch (error) {
         console.error("Failed to add to cart:", error);
         alert("Failed to add product to cart.");
@@ -76,9 +76,8 @@ const ProductCard = ({ product }) => {
 
       localStorage.setItem("guestCart", JSON.stringify(cart));
 
-      // ✅ aggiorna il contatore
-      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-      updateCartCount(totalCount);
+      // ✅ aggiorna il contatore usando i nuovi metodi
+      setCartCountFromItems(cart);
     }
   };
 
@@ -89,8 +88,8 @@ const ProductCard = ({ product }) => {
         <Card.Body>
           <Card.Title>{currentProduct.name}</Card.Title>
           <Card.Text>{currentProduct.description}</Card.Text>
-          <Card.Text> price: {currentProduct.price} £</Card.Text>
-          <Card.Text> size: {currentProduct.canvasSize}</Card.Text>
+          <Card.Text>price: {currentProduct.price} £</Card.Text>
+          <Card.Text>size: {currentProduct.canvasSize}</Card.Text>
           {(!user || user.role !== "ADMIN") && (
             <Button variant="dark" onClick={addToCart}>
               Add to cart
@@ -103,11 +102,10 @@ const ProductCard = ({ product }) => {
                 variant="warning me-2"
                 onClick={() => setShowEditModal(true)}
               >
-                {" "}
                 Edit
               </Button>
               <Button variant="danger" onClick={handleDelete}>
-                Delete{" "}
+                Delete
               </Button>
             </div>
           )}
