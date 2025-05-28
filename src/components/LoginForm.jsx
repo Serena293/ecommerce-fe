@@ -12,82 +12,71 @@ function LoginForm({ onLoginSuccess }) {
 
   // Funzione per estrarre e normalizzare il ruolo
   const getNormalizedRole = (authorities) => {
-    if (!authorities || authorities.length === 0) return 'CUSTOMER';
-    const role = authorities[0].authority; 
-    return role.replace('ROLE_', ''); 
+    if (!authorities || authorities.length === 0) return "CUSTOMER";
+    const role = authorities[0].authority;
+    return role.replace("ROLE_", "");
   };
 
-  async function handleLogin(e) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+async function handleLogin(e) {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      if (!username || !password) {
-        throw new Error("Username and Password are mandatory");
-      }
-
-      const loginUrl = "http://localhost:8080/login";
-
-      const response = await fetch(loginUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-      
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
-      }
-
-      const data = await response.json();
-
-      // Estrae e normalizza il ruolo dalla risposta
-      const normalizedRole = getNormalizedRole(data.authorities);
-
-      // Salva sia il token che i dati utente
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("userData", JSON.stringify({
-        username: data.username,
-        role: normalizedRole,  
-        email: data.email,
-         userId: data.userId
-      }));
-      
-      // Notifica il componente padre
-      // onLoginSuccess({
-      //   token: data.token,
-      //   role: normalizedRole,
-      //   username: data.username,
-      //   email: data.email,
-      //    userId: data.userId
-      // });
-      onLoginSuccess(data.token);
-
-
-      setUsername("");
-      setPassword("");
-      
-    
-      if (normalizedRole === 'ADMIN') {
-        navigate("/admin");
-      } else {
-        navigate("/profile");
-      }
-
-    } catch (error) {
-      console.error("Login error:", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
+  try {
+    if (!username || !password) {
+      throw new Error("Username and Password are mandatory");
     }
+
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    // Prima verifica lo stato della risposta
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || "Login failed");
+    }
+
+    // Poi processa la risposta
+    const responseData = await response.json();
+    console.log("Login response:", responseData); 
+    console.log(typeof(responseData.token), " <---- tipo di response data")
+
+    if (!responseData.token) {
+      throw new Error("Token non ricevuto dal server");
+    }
+
+    // Estrae e normalizza il ruolo
+    const normalizedRole = getNormalizedRole(responseData.authorities);
+
+    console.log("ResponseData.token in LoginInForm", responseData.token)
+
+    // Salva i dati
+    localStorage.setItem("authToken", responseData.token);
+    localStorage.setItem("userData", JSON.stringify({
+      username: responseData.username,
+      role: normalizedRole,
+      email: responseData.email,
+      userId: responseData.userId
+    }));
+
+    // Notifica il successo
+    onLoginSuccess(responseData.token);
+
+    // Naviga
+    navigate(normalizedRole === 'ADMIN' ? "/admin" : "/profile");
+
+  } catch (error) {
+    console.error("Login error:", error);
+    setError(error.message || "Errore durante il login");
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -181,7 +170,7 @@ function LoginForm({ onLoginSuccess }) {
             Don't have an account?{" "}
             <Link to="/register" className="text-decoration-none">
               Sign up
-          </Link>
+            </Link>
           </div>
         </div>
       </form>

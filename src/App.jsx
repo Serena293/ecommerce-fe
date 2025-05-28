@@ -20,12 +20,14 @@ import CartProvider from "./CartProvider";
 import AuthProvider from "./AuthProvider";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
+import ShoppingPage from "./components/ShoppingPage";
 
 function App() {
   const { user, isAuthenticated, setAuth, logout } = useAuth();
 
-  const handleLoginSuccess = (userData) => {
-    setAuth(userData);
+  const handleLoginSuccess = (token) => {
+    console.log(token, "in app.jsx")
+    setAuth(token);
   };
 
   const handleLogout = () => {
@@ -65,7 +67,7 @@ function App() {
                 path="/login"
                 element={
                   isAuthenticated ? (
-                    <Navigate to="/profile" replace />
+                    <Navigate to="/home" replace />
                   ) : (
                     <LoginForm onLoginSuccess={handleLoginSuccess} />
                   )
@@ -130,6 +132,8 @@ function App() {
               <Route path="/commissions" element={<OrderPage />} />
               
               <Route path="/checkout"element={<CheckoutPage/>} />
+
+              <Route path="/shop" element={<ShoppingPage/>}/>
 
 
             </Routes>

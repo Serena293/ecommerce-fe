@@ -5,40 +5,37 @@ import React, { useState } from "react";
 import axios from "axios";
 import useCart from "../useCart";
 
-const ProductCard = ({ product }) => {
+
+const ProductCard = ({ product, onDelete }) => {
   const { user, isAuthenticated } = useAuth();
   const { incrementCartCount, setCartCountFromItems } = useCart();
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(product);
-  const [productId, setProductId] = useState("");
 
   const handleDelete = async () => {
     const token = localStorage.getItem("authToken");
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/admin/products/${productId}`,
+      await axios.delete(
+        `http://localhost:8080/admin/products/${product.productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json' 
           },
         }
       );
-      console.log(response, "in product card");
-      setProductId("");
+      onDelete(product.productId);
     } catch (error) {
       console.log("err delete fetch", error);
     }
   };
 
   const addToCart = async () => {
-    console.log("User object:", user);
-    console.log("User ID:", user.userId);
-
     if (isAuthenticated && user) {
       try {
         const token = localStorage.getItem("authToken");
-        const response = await axios.post(
+        await axios.post(
           `http://localhost:8080/api/v1/users/${user.userId}/cart/add`,
           {
             productId: product.productId,
@@ -50,7 +47,6 @@ const ProductCard = ({ product }) => {
             },
           }
         );
-        console.log("Added to backend cart:", response.data);
         alert("Product added to your cart!");
         incrementCartCount(); 
       } catch (error) {
@@ -75,40 +71,50 @@ const ProductCard = ({ product }) => {
       }
 
       localStorage.setItem("guestCart", JSON.stringify(cart));
-
-      // ✅ aggiorna il contatore usando i nuovi metodi
       setCartCountFromItems(cart);
     }
   };
 
   return (
     <>
-      <Card>
+      <Card className="product-card shadow-sm">
         <Card.Img variant="top" src={currentProduct.imageUrl} />
         <Card.Body>
-          <Card.Title>{currentProduct.name}</Card.Title>
-          <Card.Text>{currentProduct.description}</Card.Text>
-          <Card.Text>price: {currentProduct.price} £</Card.Text>
-          <Card.Text>size: {currentProduct.canvasSize}</Card.Text>
-          {(!user || user.role !== "ADMIN") && (
-            <Button variant="dark" onClick={addToCart}>
-              Add to cart
-            </Button>
-          )}
+          <Card.Title className="text-truncate">{currentProduct.name}</Card.Title>
+          <Card.Text className="text-muted mb-2">
+            {currentProduct.description.length > 100 
+              ? `${currentProduct.description.substring(0, 100)}...` 
+              : currentProduct.description}
+          </Card.Text>
+          <Card.Text className="fw-bold">Price: {currentProduct.price} £</Card.Text>
+          <Card.Text>Size: {currentProduct.canvasSize}</Card.Text>
+          
+          <div className="btn-container mt-auto">
+            {(!user || user.role !== "ADMIN") && (
+              <Button variant="dark" onClick={addToCart} className="w-100">
+                Add to cart
+              </Button>
+            )}
 
-          {isAuthenticated && user.role === "ADMIN" && (
-            <div className="d-flex flex-row m-2">
-              <Button
-                variant="warning me-2"
-                onClick={() => setShowEditModal(true)}
-              >
-                Edit
-              </Button>
-              <Button variant="danger" onClick={handleDelete}>
-                Delete
-              </Button>
-            </div>
-          )}
+            {isAuthenticated && user.role === "ADMIN" && (
+              <div className="d-flex flex-row">
+                <Button
+                  variant="warning me-2"
+                  onClick={() => setShowEditModal(true)}
+                  className="flex-grow-1"
+                >
+                  Edit
+                </Button>
+                <Button 
+                  variant="danger" 
+                  onClick={handleDelete}
+                  className="flex-grow-1"
+                >
+                  Delete
+                </Button>
+              </div>
+            )}
+          </div>
         </Card.Body>
       </Card>
 

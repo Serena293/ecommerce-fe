@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { AuthContext } from './AuthContext';
-import { jwtDecode } from 'jwt-decode';
-
+import { useState, useEffect } from "react";
+import { AuthContext } from "./AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
- const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null);
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-     
+    const token = localStorage.getItem("authToken");
+    console.log("token in AuthProvider", token)
+
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -20,10 +20,10 @@ const AuthProvider = ({ children }) => {
         const userData = {
           username: decoded.sub,
           userId: decoded.userId,
-          role: decoded.role || decoded.authorities?.[0],//controlla
+          role: decoded.authorities?.[0]?.replace("ROLE_", "") || "CUSTOMER",
         };
-           
-        setToken(token); 
+
+        setToken(token);
         setUser(userData);
         setIsAuthenticated(true);
       } catch (error) {
@@ -34,8 +34,8 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const setAuth = (token) => {
-    localStorage.setItem('authToken', token);
-  setToken(token)
+    localStorage.setItem("authToken", token);
+    setToken(token);
     const decoded = jwtDecode(token);
 
     const userData = {
@@ -43,20 +43,23 @@ const AuthProvider = ({ children }) => {
       userId: decoded.userId,
       role: decoded.role || decoded.authorities?.[0],
     };
-
+     
+    
     setUser(userData);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
     setUser(null);
     setIsAuthenticated(false);
-      setToken(null);
+    setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated,token, setAuth, logout }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, token, setAuth, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

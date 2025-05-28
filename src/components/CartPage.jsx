@@ -110,7 +110,7 @@ const CartPage = () => {
     <>
       <div className="d-flex justify-content-between align-items-center px-3">
         <h1>My Cart</h1>
-        <Link to="/products" className="text-decoration-none">
+        <Link to="/shop" className="text-decoration-none">
           Continue shopping
         </Link>
       </div>
@@ -131,7 +131,7 @@ const CartPage = () => {
 
       {cartItems.length > 0 && (
         <div className="d-flex justify-content-end mx-5 mt-4">
-          <Button as={Link} to="/products" className="btn-dark mx-3">
+          <Button as={Link} to="/shop" className="btn-dark mx-3">
             Continue Shopping
           </Button>
           <Link to="/checkout">

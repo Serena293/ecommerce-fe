@@ -15,6 +15,7 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [canvasSize, setCanvasSize] = useState("SMALL");
 
   // Initialize form data once product is loaded
   useEffect(() => {
@@ -24,7 +25,7 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
         description: product.description || "",
         price: product.price || "",
         canvasSize: product.canvasSize || "",
-        category: product.category || ""
+        category: product.category || "",
       });
     }
   }, [product]);
@@ -44,7 +45,7 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
     setErrorMessage("");
 
     const data = new FormData();
-    console.log(data, "in editprofile")
+    console.log(data, "in editprofile");
     data.append(
       "product",
       new Blob([JSON.stringify(formData)], { type: "application/json" })
@@ -53,7 +54,7 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
       data.append("image", image);
     }
 
-    const token = localStorage.getItem("authToken"); 
+    const token = localStorage.getItem("authToken");
     // console.log(token, "in editprofile")
 
     try {
@@ -67,7 +68,7 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
           },
         }
       );
-        
+
       setSuccessMessage("Product updated successfully!");
       onProductUpdate(response.data);
       setTimeout(() => {
@@ -128,14 +129,24 @@ const EditProductModal = ({ show, onHide, product, onProductUpdate }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Canvas Size</Form.Label>
+            {/* <Form.Label>Canvas Size</Form.Label>
             <Form.Control
               type="text"
               name="canvasSize"
               value={formData.canvasSize}
               onChange={handleChange}
               required
-            />
+            /> */}
+
+            <label>Canvas Size:</label>
+            <select
+              value={canvasSize}
+              onChange={(e) => setCanvasSize(e.target.value)}
+            >
+              <option value="SMALL">30x40 cm (Small)</option>
+              <option value="MEDIUM">50x70 cm (Medium)</option>
+              <option value="LARGE">70x100 cm (Large)</option>
+            </select>
           </Form.Group>
 
           <Form.Group className="mb-3">
