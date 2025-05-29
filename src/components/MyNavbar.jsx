@@ -12,7 +12,7 @@ import useCart from "../useCart";
 const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
   const { cartCount } = useCart();
 
-  console.log(userRole)
+  // console.log(userRole)
 
   return (
     <Navbar expand="lg" bg="light" variant="light" className="shadow-sm">
