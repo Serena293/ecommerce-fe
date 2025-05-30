@@ -77,3 +77,21 @@
 .product-card .btn-container {
     margin-top: auto;
 }
+
+/* Navbar.module.css */
+.navbarBrand {
+  display: flex;
+  align-items: center; /* Allinea verticalmente */
+  font-weight: bold;
+}
+
+.navbarLogo {
+  height: 90px; 
+  width: auto;
+  margin-right: 10px;
+}
+
+.navbarText {
+  line-height: 1.2; /* Regola per allineamento verticale perfetto */
+  padding-top: 4px; /* Sottile aggiustamento se necessario */
+}
