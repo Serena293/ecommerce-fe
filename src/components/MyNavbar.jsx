@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useCart from "../useCart";
-import logo from "../assets/logo.png"
+import logo from "../../public/logo.png"
 
 const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
   const { cartCount } = useCart();
@@ -25,7 +25,7 @@ const MyNavbar = ({ isAuthenticated, userRole, onLogout }) => {
     alt="Jucy Art Logo" 
     className="navbarLogo"
   />
-  <span className="navbarText">It's jucy art</span>
+  <span className="navbarText">It's juicy art</span>
 </Navbar.Brand>
         <Navbar.Toggle aria-controls="offcanvasNavbar" className="border-0">
           <span className="navbar-toggler-icon"></span>

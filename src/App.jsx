@@ -22,6 +22,7 @@ import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
 import ShoppingPage from "./components/ShoppingPage";
 
+
 function App() {
   const { user, isAuthenticated, setAuth, logout } = useAuth();
 

@@ -1,4 +1,4 @@
-*{ font-family: "Karla", sans-serif;}
+*{ font-family: "Carlito", sans-serif;}
 
 .registration-form {
     width: 70%;
@@ -92,6 +92,7 @@
 }
 
 .navbarText {
-  line-height: 1.2; /* Regola per allineamento verticale perfetto */
-  padding-top: 4px; /* Sottile aggiustamento se necessario */
+  line-height: 1.2; 
+  padding-top: 4px; 
+  font-family: "Pacifico", sans-serif !important ;
 }
